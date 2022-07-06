@@ -53,3 +53,8 @@ files:
 
 intervalEventEmitter:
   intervalTimerSeconds: 600
+
+logging:
+  level:
+    org.springframework: DEBUG
+    org.springframework.data: DEBUG
