@@ -27,10 +27,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
-import org.apache.commons.compress.utils.IOUtils;
 import org.cancogenvirusseq.singularity.components.model.AnalysisDocumentMolecularDataPair;
 import org.cancogenvirusseq.singularity.components.model.FileBundle;
 import org.cancogenvirusseq.singularity.repository.model.Archive;
@@ -95,21 +93,21 @@ public class FileBundleUtils {
         return fileBundle;
       };
 
-    private static final BiConsumer<GzipCompressorOutputStream, File> archiveFile =
-       (gzipCompressorOutputStream, file) -> {
-         try {
-            InputStream in = new FileInputStream(file);
-            final byte[] buffer = new byte[1024];
-            int n = 0;
-            while (-1 != (n = in.read(buffer))) {
-              gzipCompressorOutputStream.write(buffer, 0, n);
-            }
-            gzipCompressorOutputStream.close();
-            in.close();
-         } catch (IOException e) {
-             log.error(e.getLocalizedMessage(), e);
-         }
-       };
+  private static final BiConsumer<GzipCompressorOutputStream, File> archiveFile =
+      (gzipCompressorOutputStream, file) -> {
+        try {
+          InputStream in = new FileInputStream(file);
+          final byte[] buffer = new byte[1024];
+          int n = 0;
+          while (-1 != (n = in.read(buffer))) {
+            gzipCompressorOutputStream.write(buffer, 0, n);
+          }
+          gzipCompressorOutputStream.close();
+          in.close();
+        } catch (IOException e) {
+          log.error(e.getLocalizedMessage(), e);
+        }
+      };
 
   private static final UnaryOperator<FileBundle> putBundleFilesInArchive =
       fileBundle -> {
